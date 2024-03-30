@@ -275,186 +275,6 @@ Optional   | `format`
 Returns    | server's information
 
 
-## Protocol for admin tasks
-
-
-### Inject message
-
-Inject message to the system
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `inject`
-Mandatory  | `u` `h` `from` `msg` `recvnum` `smsc`
-Optional   | `format`
-Returns    | return codes
-
-Injected message will be treated as a valid incoming SMS.
-
-
-### Add account
-
-Add an account
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `accountadd`
-Mandatory  | `u` `h` `data_status` `data_username` `data_password` `data_name` `data_email`
-Optional   | `format` `data_parent` `data_mobile` `data_datetime_timezone` `data_language_module`
-Returns    | return codes and info
-
-Notes:
-* most mandatory and optional query parameters are prefixed with `data_`
-* data_status 2 is for admin level account
-* data_status 3 is for user level account
-* data_status 4 is for subuser level account
-* data_parent may need to be set when adding subuser level account
-
-
-### Remove account
-
-Remove an account
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `accountremove`
-Mandatory  | `u` `h` `data_username`
-Optional   | `format`
-Returns    | return codes and info
-
-
-### Set parent for subuser
-
-Set parent for subuser level account
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `parentset`
-Mandatory  | `u` `h` `data_username` `data_parent`
-Optional   | `format`
-Returns    | return codes
-
-
-### Get parent from subuser
-
-Get parent from subuser level account
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `parentget`
-Mandatory  | `u` `h` `data_username`
-Optional   | `format`
-Returns    | return codes and data parent
-
-
-### Ban an account
-
-Ban an account
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `accountban`
-Mandatory  | `u` `h` `data_username`
-Optional   | `format`
-Returns    | return codes
-
-
-### Unban an account
-
-Unban an account
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `accountunban`
-Mandatory  | `u` `h` `data_username`
-Optional   | `format`
-Returns    | return codes
-
-
-### Update account preferences
-
-Update account preferences
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `accountpref`
-Mandatory  | `u` `h` `data_username`
-Optional   | `format` `data_name` `data_email` `data_mobile` `data_address` `data_city` `data_state` `data_country` `data_zipcode` `data_password`
-Returns    | return codes and info
-
-Notes:
-* most mandatory and optional query parameters are prefixed with `data_`
-* this command may be used to update account's password
-
-
-### Update account configuration
-
-Update account configuration
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `accountconf`
-Mandatory  | `u` `h` `data_username`
-Optional   | `format` `data_footer` `datetime_timezone` `data_language_module` `data_fwd_to_inbox` `data_fwd_to_email` `data_fwd_to_mobile` `data_local_length` `data_replace_zero` `data_sender` 
-Returns    | return codes and info
-
-Notes:
-* most mandatory and optional query parameters are prefixed with `data_`
-* this command may be used to update account's default sender ID
-* only valid sender ID may be selected
-* `data_fwd_to_inbox` `data_fwd_to_email` `data_fwd_to_mobile` are boolean variables, fill with 0 to disable and 1 to enable
-* `data_local_length` used to detect local destination number by its length
-* `data_replace_zero` is a numeric only prefix number to replace prefix 0
-
-
-### View account credit
-
-View an account credit or balance
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `creditview`
-Mandatory  | `u` `h` `data_username`
-Optional   | `format`
-Returns    | return codes and balance
-
-
-### Add account credit
-
-Add credit to an account
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `creditadd`
-Mandatory  | `u` `h` `data_username` `data_amount`
-Optional   | `format`
-Returns    | return codes, updated balance and amount
-
-
-### Deduct account credit
-
-Deduct credit to an account
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `creditdeduct`
-Mandatory  | `u` `h` `data_username` `data_amount`
-Optional   | `format`
-Returns    | return codes, updated balance and amount
-
-
-### Set login key
-
-Set login key for an account
-
-Parameters | Name or description
----------- | --------------------
-Operation  | `loginkeyset`
-Mandatory  | `u` `h` `data_username`
-Optional   | `format`
-Returns    | return codes and login key
-
-
 ## Examples
 
 
@@ -463,12 +283,12 @@ Returns    | return codes and login key
 Example webservice URL:
 
 ```
-http://x.dom/index.php?app=ws&u=anton&h=a45a02791b2fe2fedb078c39fd83637a&op=pv&to=0987654321&msg=test+only
+http://api.expresstxtapp.com/index.php?app=ws&u=anton&h=a45a02791b2fe2fedb078c39fd83637a&op=pv&to=0987654321&msg=test+only
 ```
 
 Explanation:
 
-playSMS webservices in x.dom with operation `op` pv (send SMS) was accessed by a user using username `u` and webservices token `h` with destination number `to` 0987654321, message `msg` 'test only' and expected output format is the default format, JSON format.
+playSMS webservices in api.expresstxtapp.com with operation `op` pv (send SMS) was accessed by a user using username `u` and webservices token `h` with destination number `to` 0987654321, message `msg` 'test only' and expected output format is the default format, JSON format.
 
 When succeeded playSMS will returns OK status message in JSON format:
 
@@ -483,12 +303,12 @@ When error occurred playSMS will returns one of the return code, also in JSON fo
 Example webservice URL:
 
 ```
-http://x.com/index.php?app=ws&u=anton&h=482ac0069592c647289e52dfef88be68&op=in&kwd=IDOL&format=xml
+http://api.expresstxtapp.com/index.php?app=ws&u=anton&h=482ac0069592c647289e52dfef88be68&op=in&kwd=IDOL&format=xml
 ```
 
 Explanation:
 
-playSMS webservices in x.com with operation `op` in (incoming SMS) was accessed by a user using username `u` and webservices token `h` with keyword `kwd` IDOL and expected output format is in XML format `format=xml`.
+playSMS webservices in api.expresstxtapp.com with operation `op` in (incoming SMS) was accessed by a user using username `u` and webservices token `h` with keyword `kwd` IDOL and expected output format is in XML format `format=xml`.
 
 When succeeded playSMS will returns OK status message in XML format:
 
@@ -516,12 +336,12 @@ When error occurred playSMS will returns one of the return code, also in XML for
 Example webservice URL:
 
 ```
-http://x.com/index.php?app=ws&u=anton&h=482ac0069592c647289e52dfef88be68&op=get_contact&kwd=anton
+http://api.expresstxtapp.com/index.php?app=ws&u=anton&h=482ac0069592c647289e52dfef88be68&op=get_contact&kwd=anton
 ```
 
 Explanation:
 
-playSMS webservices in x.com with operation `op` get_contact was accessed by a user using username `u` and webservices token `h` with keyword `kwd` anton and expected output format is in JSON format.
+playSMS webservices in api.expresstxtapp.com with operation `op` get_contact was accessed by a user using username `u` and webservices token `h` with keyword `kwd` anton and expected output format is in JSON format.
 
 When succeeded playSMS will returns OK status message in JSON format:
 
